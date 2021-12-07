@@ -19,6 +19,7 @@ const CommentForm = ({ post }) => {
   }, [addCommentDone]);
 
   const onSubmitComment = useCallback(() => {
+    console.log('clicked');
     dispatch({
       type: ADD_COMMENT_REQUEST,
       data: { content: commentText, userId: id, postId: post.id },
@@ -30,7 +31,7 @@ const CommentForm = ({ post }) => {
       <Form.Item style={{ position: 'relative', margin: 0 }}>
         <Input.TextArea rows={4} value={commentText} onChange={onChangeCommentText} />
         <Button
-          style={{ position: 'absolute', right: 0, bottom: -40 }}
+          style={{ position: 'absolute', right: 0, bottom: -40, zIndex: '100' }}
           type="primary"
           htmlType="submit"
           loading={addCommentLoading}
