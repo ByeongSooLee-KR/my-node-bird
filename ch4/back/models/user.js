@@ -28,10 +28,9 @@ module.exports = (sequelize, DataTypes) => {
         db.User.hasMany(db.Post); // 사람이 Post를 여러개 가질 수 있다.
         db.User.hasMany(db.Comment); // 한 사람이 여러개의 리뷰를 가질 수 있다.
         db.User.belongsToMany(db.Post, { through: 'Like', as: 'Liked' });
-        db.User.belongsToMany(db.User, { through: 'Follow', as: 'Follwers', foreignkey: 'FollowingId'  });  
+        db.User.belongsToMany(db.User, { through: 'Follow', as: 'Followers', foreignKey: 'FollowingId'  });  
         // 위에 꺼와 달리 foreignkey를 붙여주는 이유는 User와 Post는 각각의 id로 구분할 수 있으나 같은 테이블일때 구분자를 만들어 주기 위함이다.
-        db.User.belongsToMany(db.User, { through: 'Follow', as: 'Fllowings', foreignkey: 'FollowerId' });
-
+        db.User.belongsToMany(db.User, { through: 'Follow', as: 'Followings', foreignKey: 'FollowerId' });
     };
     return User; 
 }

@@ -6,7 +6,7 @@ const { User } = require('../models');
 module.exports = () => {
     passport.use(new LocalStrategy({
         usernameField: 'email',
-        passwordField: 'passoword', // 첫번째가 req.body에 대한 설정이라면 두 번째 인자는 그에대한 함수 설정 
+        passwordField: 'password', // 첫번째가 req.body에 대한 설정이라면 두 번째 인자는 그에대한 함수 설정 
     }, async (email, password, done) => { // 두번째 인자에서 로그인 전략을 세운다. 
         try {
             const user = await User.findOne({

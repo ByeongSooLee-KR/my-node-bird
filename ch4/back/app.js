@@ -1,5 +1,9 @@
 const express = require('express');
+
 const postRouter = require('./routes/post');
+const postsRouter = require('./routes/posts');
+
+const hashtagRouter = require('./routes/hashtag');
 const userRouter = require('./routes/user');
 const cors = require('cors');
 const session = require('express-session');
@@ -7,6 +11,8 @@ const cookieParser = require('cookie-parser');
 
 const passportConfig = require('./passport');
 const dotenv = require('dotenv');
+const morgan = require('morgan');
+const path = require('path');
 
 const db = require('./models');
 const passport = require('passport');
@@ -22,12 +28,15 @@ db.sequelize.sync()
 
 passportConfig();
 
+app.use(morgan('dev'));
+
 
 // front에서 보내준 data를 해석해서 req body로 넣어주는 역할
 // router보다 위에 있어야 한다. 
+app.use('/', express.static(path.join(__dirname, 'uploads'))); // dirname: 현재의 폴더네임 안에 upload로 합쳐준다. 
+// path.join을 쓰는 이유는 __dirname + '/uploads' 맥이나 리눅스의 경우 \uploads로 경로가 되기 때문에 운영체제에 맞게 path.join을 쓴다.
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
  
 app.use(cookieParser(process.env.COOKIE_SECRET)); 
 app.use(session({
@@ -65,7 +74,10 @@ app.get('/api', (req, res) => {
 // }); -> postRotuer로 아래와 같이 라우터 분리
 
 app.use('/post',postRouter); // /post가 중복일 경우 prefix로 붙일 수 있음 
+app.use('/posts',postsRouter); // /post가 중복일 경우 prefix로 붙일 수 있음 
+
 app.use('/user',userRouter); 
+app.use('/hashtag', hashtagRouter); 
 
 
 
